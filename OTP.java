@@ -34,10 +34,11 @@ public class OTP {
     public String tOTP(String secretKey,long timeStamp, long t0,int timeRange,int time_in, int codeDigits)
             throws UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException{
         long T = ((timeStamp - t0)/time_in) / timeRange;
-        final SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes("UTF-8"), "HmacSHA1");
-        final Mac hmac = Mac.getInstance("HmacSHA1");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes("UTF-8"), "HmacSHA1");
+        Mac hmac = Mac.getInstance("HmacSHA1");
         hmac.init(secretKeySpec);
-        hmac.update(Long.toHexString(T).getBytes());
+//        hmac.update(Long.toHexString(T).getBytes());
+        hmac.update(Long.toString(T).getBytes());
         return truncate(hmac.doFinal(), codeDigits);
     }
 
